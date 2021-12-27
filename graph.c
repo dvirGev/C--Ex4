@@ -4,7 +4,7 @@
 
 void build_graph_cmd(pnode *head)
 {
-    delete_node_cmd(head);
+    deleteGraph_cmd(head);
     *head = NULL;
     int size = 0;
     scanf("%d", &size);
