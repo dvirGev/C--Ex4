@@ -8,6 +8,8 @@ int main()
     pnode *head = &temp;
     build_graph_cmd(head);
     printGraph_cmd(*head);
-    
+    printf("\n");
+    deleteGraph_cmd(head);
+    printGraph_cmd(*head);
     return 0;
 }

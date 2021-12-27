@@ -5,7 +5,6 @@
 void build_graph_cmd(pnode *head)
 {
     deleteGraph_cmd(head);
-    *head = NULL;
     int size = 0;
     scanf("%d", &size);
     char n = 'B';
@@ -108,4 +107,5 @@ void deleteGraph_cmd(pnode* head) {
         nodeIndex = nodeIndex->next;
         free(temp);
     }
+    *head = NULL;
 }
