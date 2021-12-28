@@ -117,21 +117,18 @@ void delete_node_cmd(pnode *head)
     int key = -1;
     scanf("%d", &key);
     pnode nodeIndex = *head;
-    pnode *pans = NULL;
+    pnode *isFirst = NULL;
+    pnode prevAns = NULL;
     if (nodeIndex->node_num == key)
     {
-        pans = head;
-        printf("hello\n");
+        isFirst = head;
     }
 
     while (nodeIndex != NULL)
     {
         if (nodeIndex->next != NULL && nodeIndex->next->node_num == key)
         {
-            
-            pans = &nodeIndex;
-            int id = (*pans)->next->node_num;
-            printf("%d\n", id);
+            prevAns = nodeIndex;
         }
         if (nodeIndex->edges != NULL && nodeIndex->edges->endpoint->node_num == key)
         {
@@ -161,35 +158,31 @@ void delete_node_cmd(pnode *head)
         nodeIndex = nodeIndex->next;
     }
 
-    if (pans != NULL)
+    if (isFirst != NULL)
     {
-        if (pans == head)
+        pedge edgeIndex = (*isFirst)->edges;
+        while (edgeIndex != NULL)
         {
-            pedge edgeIndex = (*pans)->edges;
-            while (edgeIndex != NULL)
-            {
-                pedge temp = edgeIndex;
-                edgeIndex = edgeIndex->next;
-                free(temp);
-            }
-            pnode temp = *pans;
-            *pans = temp->next;
+            pedge temp = edgeIndex;
+            edgeIndex = edgeIndex->next;
             free(temp);
         }
-        else
-        {
-            int id2 = (*pans)->node_num;
-            printf("%d\n", id2);
-            // pnode remove = (*pans)->next;
-            // pedge edgeIndex = remove->edges;
-            // while (edgeIndex != NULL)
-            // {
-            //     pedge temp = edgeIndex;
-            //     edgeIndex = edgeIndex->next;
-            //     free(temp);
-            // }
-            // (*pans)->next = remove->next;
-            // free(remove);
-        }
+        pnode temp = *isFirst;
+        *isFirst = temp->next;
+        free(temp);
     }
+    else if (prevAns != NULL)
+    {
+        pnode remove = prevAns->next;
+        pedge edgeIndex = remove->edges;
+        while (edgeIndex != NULL)
+        {
+            pedge temp = edgeIndex;
+            edgeIndex = edgeIndex->next;
+            free(temp);
+        }
+        prevAns->next = remove->next;
+        free(remove);
+    }
+    
 }
