@@ -117,62 +117,79 @@ void delete_node_cmd(pnode *head)
     int key = -1;
     scanf("%d", &key);
     pnode nodeIndex = *head;
-    pnode ans = NULL;
+    pnode *pans = NULL;
+    if (nodeIndex->node_num == key)
+    {
+        pans = head;
+        printf("hello\n");
+    }
+
     while (nodeIndex != NULL)
     {
-        if (nodeIndex->node_num == key)
+        if (nodeIndex->next != NULL && nodeIndex->next->node_num == key)
         {
-            ans = nodeIndex;
+            
+            pans = &nodeIndex;
+            int id = (*pans)->next->node_num;
+            printf("%d\n", id);
         }
-        else
+        if (nodeIndex->edges != NULL && nodeIndex->edges->endpoint->node_num == key)
         {
-            pedge edgeIndex = nodeIndex->edges;
-            while (edgeIndex != NULL)
+            pedge temp = nodeIndex->edges;
+            nodeIndex->edges = nodeIndex->edges->next;
+            free(temp);
+            nodeIndex = nodeIndex->next;
+            continue;
+        }
+        pedge edgeIndex = nodeIndex->edges;
+        if (edgeIndex != NULL)
+        {
+            while (edgeIndex->next != NULL)
             {
-                if (edgeIndex->endpoint->node_num == key)
+                if (edgeIndex->next->endpoint->node_num == key)
                 {
-                    if (edgeIndex->next != NULL)
-                    {
-                        pedge temp = edgeIndex->next;
-                        edgeIndex->endpoint = temp->endpoint;
-                        edgeIndex->weight = temp->weight;
-                        edgeIndex->next = temp->next;
-                        free(temp);
-                    }
-                    else
-                    {
-                        pedge temp = edgeIndex;
-                        free(temp);
-                        edgeIndex = NULL;
-                    }
+                    pedge temp = edgeIndex->next;
+                    edgeIndex->next = temp->next;
+                    free(temp);
                 }
-                else {
+                else
+                {
                     edgeIndex = edgeIndex->next;
                 }
             }
         }
         nodeIndex = nodeIndex->next;
     }
-    if (ans != NULL)
+
+    if (pans != NULL)
     {
-        pedge edgeIndex = ans->edges;
-        while (edgeIndex != NULL)
+        if (pans == head)
         {
-            pedge temp = edgeIndex->next;
-            free(edgeIndex);
-            edgeIndex = temp;
-        }
-        if (ans->next != NULL)
-        {
-            pnode temp = ans->next;
-            ans->node_num = temp->node_num;
-            ans->edges = temp->edges;
-            ans->next = temp->next;
+            pedge edgeIndex = (*pans)->edges;
+            while (edgeIndex != NULL)
+            {
+                pedge temp = edgeIndex;
+                edgeIndex = edgeIndex->next;
+                free(temp);
+            }
+            pnode temp = *pans;
+            *pans = temp->next;
             free(temp);
         }
         else
         {
-            free(ans);
+            int id2 = (*pans)->node_num;
+            printf("%d\n", id2);
+            // pnode remove = (*pans)->next;
+            // pedge edgeIndex = remove->edges;
+            // while (edgeIndex != NULL)
+            // {
+            //     pedge temp = edgeIndex;
+            //     edgeIndex = edgeIndex->next;
+            //     free(temp);
+            // }
+            // (*pans)->next = remove->next;
+            // free(remove);
         }
     }
 }
