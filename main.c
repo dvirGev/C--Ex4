@@ -7,22 +7,30 @@ int main()
     char input = '\0';
     while (scanf("%c", &input) != EOF)
     {
-        printf("%c\n", input);
         if (input == 'A')
         {
             build_graph_cmd(head);
         }
+        else if (input == 'B')
+        {
+            insert_node_cmd(head);
+        }
         else if (input == 'D')
         {
-           delete_node_cmd(head);
+            delete_node_cmd(head);
         }
         else if (input == 'S')
         {
-           shortsPath_cmd(*head);
+            int src = -1, dest = -1;
+            scanf("%d %d", &src, &dest);
+            int dis = shortsPath_cmd(*head, src, dest);
+            printf("Dijsktra shortest path: %d \n", dis);
         }
-        printf("\n");
-        printGraph_cmd(*head);
-        
+        else if (input == 'T') {
+            //printGraph_cmd(*head);
+            int weight = TSP_cmd(*head);
+            printf("TSP shortest path: %d \n", weight);
+        }
     }
     return 0;
 }

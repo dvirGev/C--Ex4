@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
-#define fullSize 1000000
 typedef struct Dijkstra_Node
 {
     pnode node;
@@ -27,7 +26,7 @@ pDnode buildDijkstra_NodeList(pnode start, int src)
         else
         {
             (*index)->dad = NULL;
-            (*index)->weight = fullSize;
+            (*index)->weight = infinity;
         }
         (*index)->isUse = 0;
         (*index)->next = NULL;
@@ -61,7 +60,7 @@ pDnode minInList(pDnode head)
     pDnode ans = NULL;
     while (head != NULL)
     {
-        if (!head->isUse && head->weight < fullSize && (ans == NULL || ans->weight < head->weight))
+        if (!head->isUse && head->weight < infinity && (ans == NULL || ans->weight < head->weight))
         {
             ans = head;
         }
@@ -73,10 +72,8 @@ pDnode minInList(pDnode head)
     }
     return ans;
 }
-void shortsPath_cmd(pnode head)
+int shortsPath_cmd(pnode head, int src, int dest)
 {
-    int src = -1, dest = -1;
-    scanf("%d %d", &src, &dest);
     pDnode list = buildDijkstra_NodeList(head, src);
 
     pDnode u = minInList(list);
@@ -98,7 +95,7 @@ void shortsPath_cmd(pnode head)
         u = minInList(list);
     }
     int dis = getPDnode(list, dest)->weight;
-    dis = (dis == fullSize)? -1: dis;
-    printf("Dijsktra shortest path: %d ", dis);
+    dis = (dis == infinity)? -1: dis;
     deleteList(list);
+    return dis;
 }
