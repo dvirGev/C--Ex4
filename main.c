@@ -7,6 +7,7 @@ int main()
     char input = '\0';
     while (scanf("%c", &input) != EOF)
     {
+        printf("%c\n", input);
         if (input == 'A')
         {
             build_graph_cmd(head);
@@ -14,10 +15,14 @@ int main()
         else if (input == 'D')
         {
            delete_node_cmd(head);
-        
         }
-        printGraph_cmd(*head);
+        else if (input == 'S')
+        {
+           shortsPath_cmd(*head);
+        }
         printf("\n");
+        printGraph_cmd(*head);
+        
     }
     return 0;
 }
