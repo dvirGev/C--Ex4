@@ -1,8 +1,7 @@
 .PHONY: all clean
 CC = gcc
 AR = ar
-FLAGS= -Wall -g
-
+FLAGS= -Wall -Werror -g
 all: graph 
 graph: main.o graph.a
 	$(CC) $(FLAGS) -o graph main.o graph.a

@@ -5,19 +5,27 @@ int weight = infinity;
 int size;
 pnode graph;
 
-
 int *buildArr(int size)
 {
 
     int *arr = (int *)malloc(sizeof(int) * size);
+    if (arr == NULL)
+    {
+        return NULL;
+    }
     for (int i = 0; i < size; i++)
     {
         scanf("%d", &arr[i]);
     }
     return arr;
 }
-int* copyArr(int* arr) {
-    int *copy = (int*)malloc(sizeof(int)*size);
+int *copyArr(int *arr)
+{
+    int *copy = (int *)malloc(sizeof(int) * size);
+    if (copy == NULL)
+    {
+        return NULL;
+    }
     for (int i = 0; i < size; i++)
     {
         copy[i] = arr[i];
@@ -30,7 +38,7 @@ void swap(int *a, int *b)
     *a = *b;
     *b = temp;
 }
-void calculateWeight(int* arr)
+void calculateWeight(int *arr)
 {
     int tempWeight = 0;
     for (int i = 0; i < size - 1; i++)
@@ -48,7 +56,7 @@ void calculateWeight(int* arr)
         weight = tempWeight;
     }
 }
-void permutations(int start, int* arr)
+void permutations(int start, int *arr)
 {
     if (start == size - 1)
     {
@@ -57,7 +65,7 @@ void permutations(int start, int* arr)
     }
     for (int i = start; i < size; ++i)
     {
-        int* copy = copyArr(arr);
+        int *copy = copyArr(arr);
         swap(&copy[start], &copy[i]);
         permutations(start + 1, copy);
         free(copy);
@@ -68,7 +76,7 @@ int TSP_cmd(pnode head)
     weight = infinity;
     graph = head;
     size = -1;
-    scanf("%d", &size); 
+    scanf("%d", &size);
     int *arr = buildArr(size);
     permutations(0, copyArr(arr));
     free(arr);

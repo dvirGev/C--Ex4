@@ -17,6 +17,11 @@ pDnode buildDijkstra_NodeList(pnode start, int src)
     while (start != NULL)
     {
         (*index) = (pDnode)malloc(sizeof(Dnode));
+        if ((*index) == NULL)
+        {
+            return NULL;
+        }
+        
         (*index)->node = start;
         if (start->node_num == src)
         {
