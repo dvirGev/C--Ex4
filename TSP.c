@@ -78,8 +78,10 @@ int TSP_cmd(pnode head)
     size = -1;
     scanf("%d", &size);
     int *arr = buildArr(size);
-    permutations(0, copyArr(arr));
+    int *copy = copyArr(arr);
+    permutations(0, copy);
     free(arr);
+    free(copy);
     weight = (weight == infinity) ? -1 : weight;
     return weight;
 }

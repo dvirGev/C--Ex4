@@ -32,5 +32,6 @@ int main()
             printf("TSP shortest path: %d \n", weight);
         }
     }
+    deleteGraph_cmd(head);
     return 0;
 }
