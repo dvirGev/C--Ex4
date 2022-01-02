@@ -38,37 +38,36 @@ void swap(int *a, int *b)
     *a = *b;
     *b = temp;
 }
-void calculateWeight(int myWeight)
+void calculateWeight(int *arr)
 {
-    // printf("%d\n", myWeight);
-    if (myWeight < weight)
+    int tempWeight = 0;
+    for (int i = 0; i < size - 1; i++)
     {
-        weight = myWeight;
+        int dis = shortsPath_cmd(graph, arr[i], arr[i + 1]);
+        if (dis == -1)
+        {
+            tempWeight = infinity;
+            return;
+        }
+        tempWeight += dis;
+    }
+    if (tempWeight < weight)
+    {
+        weight = tempWeight;
     }
 }
-void permutations(int start, int *arr, int myWeight)
+void permutations(int start, int *arr)
 {
     if (start == size - 1)
     {
-        calculateWeight(myWeight);
+        calculateWeight(arr);
         return;
     }
     for (int i = start; i < size; ++i)
     {
         int *copy = copyArr(arr);
         swap(&copy[start], &copy[i]);
-        // for (int i = 0; i < size; i++)
-        // {
-        //     printf("%d, ", copy[i]);
-        // }
-        // printf("\n");
-        // printf("stat = %d, val = %d\n", start, copy[start]);
-        int dis = shortsPath_cmd(graph, copy[start], copy[start + 1]);
-        if (dis != -1)
-        {
-            myWeight += dis;
-            permutations(start + 1, copy, myWeight);
-        }
+        permutations(start + 1, copy);
         free(copy);
     }
 }
@@ -80,12 +79,7 @@ int TSP_cmd(pnode head)
     scanf("%d", &size);
     int *arr = buildArr(size);
     int *copy = copyArr(arr);
-    permutations(0, copy, 0);
-    // for (int i = 0; i < size; i++)
-    // {
-    //     printf("%d, ", arr[i]);
-    // }
-    // printf("\n");
+    permutations(0, copy);
     free(arr);
     free(copy);
     weight = (weight == infinity) ? -1 : weight;
