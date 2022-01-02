@@ -61,7 +61,8 @@ void insert_node_cmd(pnode *head)
     }
     pedge *lastEdge = &(src->edges);
     int dest = -1;
-    while (scanf("%d", &dest) != 0)
+    int isDone = scanf("%d", &dest);
+    while (isDone != 0 && isDone != EOF)
     {
         pnode destNode = getNode(head, dest);
         if (destNode == NULL)
@@ -88,6 +89,7 @@ void insert_node_cmd(pnode *head)
         (*lastEdge)->weight = weight;
         (*lastEdge)->next = NULL;
         lastEdge = &((*lastEdge)->next);
+        isDone = scanf("%d", &dest);
     }
 }
 void printGraph_cmd(pnode head)
